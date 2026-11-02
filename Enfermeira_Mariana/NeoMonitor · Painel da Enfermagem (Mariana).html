@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Painel da Enfermagem · NeoMonitor</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #f1f5f8;
+        --card: #fff;
+        --ink: #16233a;
+        --mut: #5b6a7e;
+        --line: #dbe3ea;
+        --navy: #1d2a47;
+        --teal: #2a8397;
+        --crit: #c42b3b;
+        --critbg: #fde8ea;
+        --warn: #9a5b00;
+        --warnbg: #fff0d0;
+        --ok: #17795a;
+        --okbg: #ddf2e8;
+        --s1: #2a8397;
+        --s2: #d97706;
+        --s3: #6d4cc2;
+        --s4: #1a7f56;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0e1626;
+          --card: #16213a;
+          --ink: #e6edf5;
+          --mut: #97a6bb;
+          --line: #25365a;
+          --crit: #ff7080;
+          --critbg: #3b1b26;
+          --warn: #f2b04a;
+          --warnbg: #3a2f15;
+          --ok: #4cc790;
+          --okbg: #143428;
+          --teal: #5fb0c0;
+          --s1: #5fb0c0;
+          --s2: #f0a04b;
+          --s3: #a98bf0;
+          --s4: #4cc790;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0e1626;
+        --card: #16213a;
+        --ink: #e6edf5;
+        --mut: #97a6bb;
+        --line: #25365a;
+        --crit: #ff7080;
+        --critbg: #3b1b26;
+        --warn: #f2b04a;
+        --warnbg: #3a2f15;
+        --ok: #4cc790;
+        --okbg: #143428;
+        --teal: #5fb0c0;
+        --s1: #5fb0c0;
+        --s2: #f0a04b;
+        --s3: #a98bf0;
+        --s4: #4cc790;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      :root {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      body {
+        font:
+          14px/1.45 Figtree,
+          system-ui,
+          sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0 0 auto;
+        height: env(safe-area-inset-top, 0px);
+        background: var(--navy);
+        z-index: 6;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 20px;
+        background: var(--navy);
+        color: #fff;
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 5;
+        flex-wrap: wrap;
+      }
+      .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 9px 3px 9px 3px;
+        background: linear-gradient(135deg, #5fb0c0 50%, #cfd6da 50%);
+      }
+      .sp {
+        flex: 1;
+      }
+      main {
+        padding: 16px 20px;
+        display: grid;
+        gap: 16px;
+        max-width: 1500px;
+        margin: auto;
+      }
+      .g {
+        display: grid;
+        gap: 16px;
+      }
+      .cols {
+        grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+      }
+      @media (max-width: 900px) {
+        .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      .kpis {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px;
+        min-width: 0;
+      }
+      h2 {
+        font-size: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .mut {
+        color: var(--mut);
+        font-size: 12px;
+      }
+      .kpi b {
+        font-size: 28px;
+        display: block;
+        line-height: 1.15;
+      }
+      .chip {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .c2 {
+        background: var(--critbg);
+        color: var(--crit);
+      }
+      .c1 {
+        background: var(--warnbg);
+        color: var(--warn);
+      }
+      .c0 {
+        background: var(--okbg);
+        color: var(--ok);
+      }
+      .t0 {
+        border-left: 4px solid var(--ok);
+      }
+      .t1 {
+        border-left: 4px solid var(--warn);
+      }
+      .t2 {
+        border-left: 4px solid var(--crit);
+      }
+      .f2 {
+        color: var(--crit);
+        font-weight: 700;
+      }
+      .f1 {
+        color: var(--warn);
+        font-weight: 700;
+      }
+      button,
+      select {
+        font: inherit;
+        color: inherit;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      select:focus-visible {
+        outline: 2px solid var(--teal);
+        outline-offset: 2px;
+      }
+      .bar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 7px 8px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      th {
+        color: var(--mut);
+        font-weight: 600;
+      }
+      svg text {
+        fill: var(--mut);
+        font-size: 10px;
+      }
+      footer {
+        padding: 14px 20px;
+        color: var(--mut);
+        font-size: 12px;
+        text-align: center;
+      }
+      @media print {
+        .top,
+        button,
+        select {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <span class="logo"></span><b>NeoMonitor</b
+      ><span style="opacity: 0.7">UTIN · Hospital Demo</span
+      ><span class="sp"></span><span>Mariana · Enfermeira</span
+      ><span id="clk" style="opacity: 0.8"></span>
+    </header>
+    <style>
+      .beds {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+        gap: 10px;
+      }
+      .bed {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px;
+        cursor: pointer;
+        background: var(--card);
+      }
+      .bed.sel,
+      .bay.sel {
+        outline: 2px solid var(--teal);
+        outline-offset: 1px;
+      }
+      .bed h3 {
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .mm {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .mm span {
+        display: block;
+        font-size: 11px;
+        color: var(--mut);
+      }
+      .mm b {
+        font-size: 19px;
+      }
+      .q {
+        display: grid;
+        grid-template-columns: 24px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background: var(--bg);
+        cursor: pointer;
+      }
+      .q.ack {
+        opacity: 0.55;
+      }
+      .room {
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        padding: 8px;
+        margin-bottom: 8px;
+      }
+      .rg {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .bay {
+        border: 2px solid var(--line);
+        border-radius: 7px;
+        padding: 6px 2px;
+        text-align: center;
+        font-size: 12px;
+        background: var(--card);
+        color: inherit;
+      }
+      .bay.l0 {
+        border-color: var(--ok);
+        background: var(--okbg);
+      }
+      .bay.l1 {
+        border-color: var(--warn);
+        background: var(--warnbg);
+      }
+      .bay.l2 {
+        border-color: var(--crit);
+        background: var(--critbg);
+      }
+      .bay.e {
+        border-style: dashed;
+        opacity: 0.6;
+      }
+    </style>
+    <main>
+      <section class="g kpis" id="kp"></section>
+      <div class="g cols">
+        <section class="card">
+          <h2>
+            Monitorização em tempo real
+            <span class="bar"
+              ><span class="mut" id="upd"></span
+              ><button id="sim">Simular alerta</button
+              ><button id="snd">🔕 Som desligado</button></span
+            >
+          </h2>
+          <div class="beds" id="beds"></div>
+        </section>
+        <div class="g">
+          <section class="card">
+            <h2>
+              Fila de priorização
+              <span class="mut">gravidade e atraso de avaliação</span>
+            </h2>
+            <div id="q"></div>
+          </section>
+          <section class="card">
+            <h2>Mapa de camas <span class="mut">planta baixa</span></h2>
+            <div class="room">
+              <div class="mut">Sala A</div>
+              <div class="rg" id="ra"></div>
+            </div>
+            <div class="room">
+              <div class="mut">Isolamento</div>
+              <div class="rg" id="ri"></div>
+            </div>
+            <div class="room" style="text-align: center">
+              <span class="mut">Posto de enfermagem · Entrada</span>
+            </div>
+            <div class="mut">
+              ▲ crítico · ◆ atenção · ● estável · tracejado: livre
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer>
+      Protótipo com dados simulados. Ferramenta de apoio ao acompanhamento; não
+      substitui equipamentos médicos regulamentados nem a avaliação clínica.
+      Dados tratados conforme a LGPD.
+    </footer>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        pad = (n) => String(n).padStart(2, "0"),
+        hm = (d) => pad(d.getHours()) + ":" + pad(d.getMinutes());
+      const clk = () => {
+        const d = new Date();
+        $("#clk").textContent =
+          d.toLocaleDateString("pt-BR") +
+          " " +
+          hm(d) +
+          ":" +
+          pad(d.getSeconds());
+      };
+      clk();
+      setInterval(clk, 1000);
+      const L = ["Estável", "Atenção", "Crítico"],
+        I = ["●", "◆", "▲"],
+        chip = (l) => `<span class="chip c${l}">${I[l]} ${L[l]}</span>`;
+      const B = [
+        [
+          "I-01",
+          "RN de Ana Souza",
+          "28s+3",
+          1.02,
+          148,
+          95,
+          35.8,
+          35.8,
+          72,
+          35,
+          120,
+        ],
+        [
+          "I-02",
+          "RN de Bruna Lima",
+          "31s",
+          1.45,
+          152,
+          97,
+          35.2,
+          35.2,
+          70,
+          80,
+          120,
+        ],
+        [
+          "I-03",
+          "RN de Carla Dias",
+          "26s+5",
+          0.84,
+          183,
+          86,
+          35.9,
+          36,
+          74,
+          20,
+          60,
+        ],
+        [
+          "I-04",
+          "RN de Débora Rocha",
+          "33s",
+          1.9,
+          140,
+          98,
+          34.6,
+          34.5,
+          65,
+          100,
+          180,
+        ],
+        [
+          "I-05",
+          "RN de Elisa Prado",
+          "29s+1",
+          1.1,
+          128,
+          93,
+          34.7,
+          35.8,
+          68,
+          50,
+          120,
+        ],
+        [
+          "I-06",
+          "RN de Fernanda Melo",
+          "34s",
+          2.1,
+          135,
+          97,
+          34,
+          34,
+          60,
+          190,
+          120,
+        ],
+        [
+          "I-07",
+          "RN de Gabi Nunes",
+          "30s",
+          1.3,
+          108,
+          95,
+          35.3,
+          35.3,
+          78,
+          40,
+          120,
+        ],
+        [
+          "I-08",
+          "RN de Helena Cruz",
+          "32s",
+          1.6,
+          145,
+          98,
+          34.5,
+          34.5,
+          88,
+          30,
+          180,
+        ],
+      ].map((a) => {
+        const b = {
+          id: a[0],
+          n: a[1],
+          ig: a[2],
+          kg: a[3],
+          bpm: a[4],
+          sp: a[5],
+          t: a[6],
+          tg: a[7],
+          h: a[8],
+          ult: a[9],
+          int: a[10],
+        };
+        b.o = { bpm: b.bpm, sp: b.sp, t: b.t, h: b.h };
+        return b;
+      });
+      let S = null,
+        snd = false,
+        prevC = 0,
+        tk = 0;
+      const ack = new Set();
+      function lv(b) {
+        const r = [],
+          m = {};
+        const f = (k, l, x) => {
+          m[k] = l;
+          if (l) r.push([l, x]);
+        };
+        f("sp", b.sp < 88 ? 2 : b.sp < 92 ? 1 : 0, "SpO₂ " + b.sp + "%");
+        f(
+          "bpm",
+          b.bpm < 100 || b.bpm > 180 ? 2 : b.bpm < 110 || b.bpm > 170 ? 1 : 0,
+          "FC " + b.bpm + " bpm",
+        );
+        const d = Math.abs(b.t - b.tg);
+        f(
+          "t",
+          d >= 1 ? 2 : d >= 0.5 ? 1 : 0,
+          "Incubadora " + b.t.toFixed(1) + " °C (meta " + b.tg.toFixed(1) + ")",
+        );
+        f("h", b.h < 45 || b.h > 85 ? 1 : 0, "Umidade " + b.h + "%");
+        const o = Math.floor(b.ult - b.int);
+        if (o > 0) r.push([1, "Avaliação atrasada " + o + " min"]);
+        return {
+          m,
+          r,
+          o: Math.max(0, o),
+          l: Math.max(0, ...r.map((x) => x[0])),
+        };
+      }
+      function draw() {
+        const A = B.map((b) => ({ b, ...lv(b) })),
+          n = (l) => A.filter((x) => x.l == l).length,
+          c = n(2);
+        $("#kp").innerHTML =
+          [
+            ["Crítico", c, 2],
+            ["Atenção", n(1), 1],
+            ["Estável", n(0), 0],
+            ["Avaliações atrasadas", A.filter((x) => x.o).length, 1],
+          ]
+            .map(
+              (k) =>
+                `<div class="card kpi t${k[2]}"><span class="mut">${k[0]}</span><b>${k[1]}</b></div>`,
+            )
+            .join("") +
+          `<div class="card kpi"><span class="mut">Incubadoras ocupadas</span><b>8 / 10</b></div>`;
+        $("#beds").innerHTML = A.map(
+          ({ b, m, l }) =>
+            `<div class="bed t${l} ${S == b.id ? "sel" : ""}" data-id="${b.id}"><h3><span>${b.id} · ${b.n.replace("RN de ", "")}</span>${chip(l)}</h3><span class="mut">IG ${b.ig} · ${b.kg} kg · aval. há ${Math.floor(b.ult)} min</span><div class="mm"><div><span>FC (bpm)</span><b class="f${m.bpm}">${b.bpm}</b></div><div><span>SpO₂ (%)</span><b class="f${m.sp}">${b.sp}</b></div><div><span>Incubadora (°C)</span><b class="f${m.t}">${b.t.toFixed(1)}</b></div><div><span>Umidade (%)</span><b class="f${m.h}">${b.h}</b></div></div></div>`,
+        ).join("");
+        const Q = A.filter((x) => x.l).sort(
+          (a, b) =>
+            b.l * 1e3 +
+            b.o -
+            (ack.has(b.b.id) ? 500 : 0) -
+            (a.l * 1e3 + a.o - (ack.has(a.b.id) ? 500 : 0)),
+        );
+        $("#q").innerHTML =
+          (Q.map(
+            (x, i) =>
+              `<div class="q t${x.l} ${ack.has(x.b.id) ? "ack" : ""}" data-id="${x.b.id}"><b>${i + 1}</b><div><b>${x.b.id} · ${x.b.n.replace("RN de ", "")}</b><div class="mut">${x.r.map((y) => y[1]).join(" · ")}</div></div><button data-ack="${x.b.id}">${ack.has(x.b.id) ? "Desfazer" : "Reconhecer"}</button></div>`,
+          ).join("") ||
+            '<p class="mut">Nenhum paciente exige atenção agora.</p>') +
+          `<p class="mut">${n(0)} paciente(s) com rotina em dia.</p>`;
+        const bay = (x) =>
+          x
+            ? `<button class="bay l${x.l} ${S == x.b.id ? "sel" : ""}" data-id="${x.b.id}" aria-label="${x.b.id} ${L[x.l]}"><b>${x.b.id}</b><br>${I[x.l]}</button>`
+            : '<div class="bay e">livre</div>';
+        $("#ra").innerHTML = A.slice(0, 6).map(bay).join("") + bay() + bay();
+        $("#ri").innerHTML = A.slice(6).map(bay).join("");
+        if (snd && c > prevC)
+          try {
+            const a = new (window.AudioContext || webkitAudioContext)(),
+              o = a.createOscillator();
+            o.connect(a.destination);
+            o.frequency.value = 880;
+            o.start();
+            o.stop(a.currentTime + 0.25);
+          } catch (e) {}
+        prevC = c;
+        $("#upd").textContent =
+          "Atualizado às " +
+          hm(new Date()) +
+          ":" +
+          pad(new Date().getSeconds());
+      }
+      function tick() {
+        tk++;
+        B.forEach((b) => {
+          b.bpm = Math.round(b.o.bpm + Math.random() * 4 - 2);
+          b.sp = Math.round(b.o.sp + Math.random() * 2 - 1);
+          b.t = +(b.o.t + Math.random() * 0.1 - 0.05).toFixed(1);
+          b.h = Math.round(b.o.h + Math.random() - 0.5);
+          if (tk % 10 == 0) b.ult += 1;
+        });
+        draw();
+      }
+      document.addEventListener("click", (e) => {
+        const a = e.target.closest("[data-ack]");
+        if (a) {
+          const i = a.dataset.ack;
+          ack.has(i) ? ack.delete(i) : ack.add(i);
+          return draw();
+        }
+        const x = e.target.closest("[data-id]");
+        if (x) {
+          S = S == x.dataset.id ? null : x.dataset.id;
+          draw();
+        }
+      });
+      $("#snd").onclick = (e) => {
+        snd = !snd;
+        e.target.textContent = snd ? "🔔 Som ligado" : "🔕 Som desligado";
+      };
+      $("#sim").onclick = () => {
+        const b = B[3];
+        b.o.sp = b.o.sp == 98 ? 85 : 98;
+        b.o.bpm = b.o.sp == 85 ? 186 : 140;
+        tick();
+      };
+      draw();
+      setInterval(tick, 3000);
+    </script>
+  </body>
+</html>
