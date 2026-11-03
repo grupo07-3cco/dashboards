@@ -501,7 +501,7 @@
         $("#as").textContent =
           `${ia.filter((x) => !x.m).length} online · ${ia.filter((x) => x.m == 1).length} instável · ${ia.filter((x) => x.m == 2).length} offline`;
         $("#tb").innerHTML =
-          "<tr><th>Incubadora</th><th>Conexão MQTT</th><th>Última mensagem</th><th>Calibração dos sensores</th><th>Manutenção preventiva</th><th>Situação</th></tr>" +
+          "<tr><th>Incubadora</th><th>Conexão</th><th>Última leitura</th><th>Calibração dos sensores</th><th>Manutenção preventiva</th><th>Status</th></tr>" +
           ia
             .map(
               (x) =>
