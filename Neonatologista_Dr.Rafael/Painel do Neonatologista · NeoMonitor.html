@@ -1,69 +1,653 @@
-<!doctype html><html lang="pt-BR" data-theme="light" style="color-scheme:light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Painel do Neonatologista · NeoMonitor</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap"><style>
-:root{--bg:#f1f5f8;--card:#fff;--ink:#16233a;--mut:#5b6a7e;--line:#dbe3ea;--navy:#1d2a47;--teal:#2a8397;--crit:#c42b3b;--critbg:#fde8ea;--warn:#9a5b00;--warnbg:#fff0d0;--ok:#17795a;--okbg:#ddf2e8;--s1:#2a8397;--s2:#d97706;--s3:#6d4cc2;--s4:#1a7f56}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1626;--card:#16213a;--ink:#e6edf5;--mut:#97a6bb;--line:#25365a;--crit:#ff7080;--critbg:#3b1b26;--warn:#f2b04a;--warnbg:#3a2f15;--ok:#4cc790;--okbg:#143428;--teal:#5fb0c0;--s1:#5fb0c0;--s2:#f0a04b;--s3:#a98bf0;--s4:#4cc790}}
-:root[data-theme=dark]{--bg:#0e1626;--card:#16213a;--ink:#e6edf5;--mut:#97a6bb;--line:#25365a;--crit:#ff7080;--critbg:#3b1b26;--warn:#f2b04a;--warnbg:#3a2f15;--ok:#4cc790;--okbg:#143428;--teal:#5fb0c0;--s1:#5fb0c0;--s2:#f0a04b;--s3:#a98bf0;--s4:#4cc790}
-*{box-sizing:border-box;margin:0}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{font:14px/1.45 Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:6}
-.top{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--navy);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;flex-wrap:wrap}
-.logo{width:26px;height:26px;border-radius:9px 3px 9px 3px;background:linear-gradient(135deg,#5fb0c0 50%,#cfd6da 50%)}
-.sp{flex:1}
-main{padding:16px 20px;display:grid;gap:16px;max-width:1500px;margin:auto}
-.g{display:grid;gap:16px}.cols{grid-template-columns:minmax(0,2fr) minmax(300px,1fr)}
-@media(max-width:900px){.cols{grid-template-columns:1fr}}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
-h2{font-size:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.mut{color:var(--mut);font-size:12px}
-.kpi b{font-size:28px;display:block;line-height:1.15}
-.chip{display:inline-flex;gap:4px;align-items:center;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
-.c2{background:var(--critbg);color:var(--crit)}.c1{background:var(--warnbg);color:var(--warn)}.c0{background:var(--okbg);color:var(--ok)}
-.t0{border-left:4px solid var(--ok)}.t1{border-left:4px solid var(--warn)}.t2{border-left:4px solid var(--crit)}
-.f2{color:var(--crit);font-weight:700}.f1{color:var(--warn);font-weight:700}
-button,select{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:5px 10px;cursor:pointer}
-button:focus-visible,select:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap}th{color:var(--mut);font-weight:600}
-svg text{fill:var(--mut);font-size:10px}
-footer{padding:14px 20px;color:var(--mut);font-size:12px;text-align:center}
-@media print{.top,button,select{display:none}}
-</style></head><body><header class="top"><span class="logo"></span><b>NeoMonitor</b><span style="opacity:.7">UTIN · Hospital Demo</span><span class="sp"></span><span>Dr. Rafael · Neonatologista</span><span id="clk" style="opacity:.8"></span></header>
-<style>.tl{list-style:none;padding:0;max-height:340px;overflow:auto}.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px}@media(max-width:900px){.tg{grid-template-columns:1fr}}.gl{grid-column:1/-1;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:8px}.gl::after{content:"";flex:1;border-top:1px solid var(--line)}.ft{grid-column:1/-1;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}.ft p{margin:0!important}.tl li{padding:6px 0 6px 12px;border-left:3px solid var(--line);margin-left:4px;font-size:13px}.tl li.e2{border-color:var(--crit)}.tl li.e1{border-color:var(--warn)}.tl li.i{border-color:var(--teal)}.lg span{margin-right:12px;font-size:12px}.lg i{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle}</style>
-<main><section class="card bar"><b id="pn" style="font-size:16px"></b><select id="pt" aria-label="Paciente"></select><select id="rg" aria-label="Período"><option value="6">Últimas 6 h</option><option value="12" selected>Últimas 12 h</option><option value="24">Últimas 24 h</option></select><span class="mut" id="pi"></span><span class="sp"></span><button onclick="print()">Imprimir resumo</button></section>
-<section class="card"><h2>Histórico e tendências <span class="mut">faixa-alvo sombreada · marcadores = alertas</span></h2><div id="ch" class="tg"></div></section><div class="g cols"><div class="g">
-<section class="card"><h2>Análise multivariável <span class="bar"><select id="v1" aria-label="Eixo esquerdo"></select><span class="mut">×</span><select id="v2" aria-label="Eixo direito"></select></span></h2><div id="mv"></div><p class="mut" id="co"></p></section></div>
-<section class="card"><h2>Linha do tempo <span class="mut">alertas e intervenções</span></h2><ul class="tl" id="tl"></ul></section></div>
-<section class="card"><h2>Resumo de evolução de turno <span class="mut" id="rs"></span></h2><div class="tw"><table id="tb"></table></div></section></main>
-<footer>Protótipo com dados simulados. Ferramenta de apoio ao acompanhamento; não substitui equipamentos médicos regulamentados nem a avaliação clínica. Dados tratados conforme a LGPD.</footer><script>
-const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),hm=d=>pad(d.getHours())+':'+pad(d.getMinutes());
-const clk=()=>{const d=new Date();$('#clk').textContent=d.toLocaleDateString('pt-BR')+' '+hm(d)+':'+pad(d.getSeconds())};clk();setInterval(clk,1000);
-const L=['Estável','Atenção','Crítico'],I=['●','◆','▲'],chip=l=>`<span class="chip c${l}">${I[l]} ${L[l]}</span>`;
-const V={sp:{n:'SpO₂ (%)',c:'var(--s1)',b:[90,95]},bpm:{n:'Freq. cardíaca (bpm)',c:'var(--s2)',b:[120,160]},ti:{n:'Temp. incubadora (°C)',c:'var(--s3)'},h:{n:'Umidade (%)',c:'var(--s4)',b:[60,80]},tc:{n:'Temp. corporal (°C)',c:'var(--crit)',b:[36.5,37.5]},r:{n:'Ruído interno (dB)',c:'var(--mut)',b:[30,45]}};
-const E=(a,l,tp,tx,d={})=>({a,l,tp,tx,...d});
-const P=[{n:'RN de Carla Dias',d:'IG 26s+5 · 12 dias de vida · 0,84 kg · SDR, ventilação não invasiva',sp:91.5,bpm:156,tg:36,h:75,s:3,tc:36.9,r:47,ev:[E(45,2,'a','Dessaturação: SpO₂ 86% por 3 min',{dsp:6,dbpm:22}),E(38,0,'i','Aspiração de vias aéreas; FiO₂ ajustada'),E(300,1,'a','Queda de temperatura da incubadora (35,2 °C): portinhola aberta',{dt:-.8}),E(290,0,'i','Portinhola fechada; aquecimento ajustado'),E(560,0,'i','Dose de cafeína administrada'),E(900,1,'a','Taquicardia: FC 172 bpm',{dbpm:16}),E(1100,0,'i','Mudança de decúbito')]},
-{n:'RN de Ana Souza',d:'IG 28s+3 · 20 dias de vida · 1,02 kg · prematuridade, ganho de peso',sp:96,bpm:148,tg:35.8,h:72,s:7,tc:36.8,r:41,ev:[E(210,0,'i','Início de dieta enteral 3 mL'),E(700,1,'a','Umidade 58% (abaixo da faixa)'),E(1000,0,'i','Troca de sensor de SpO₂')]},
-{n:'RN de Elisa Prado',d:'IG 29s+1 · 8 dias de vida · 1,10 kg · risco de hipotermia',sp:94,bpm:132,tg:35.8,h:68,s:11,tc:36.6,r:42,ev:[E(120,2,'a','Temperatura da incubadora 34,7 °C (meta 35,8)',{dt:-1.1,dbpm:-14}),E(110,0,'i','Reajuste do setpoint; equipe notificada'),E(480,1,'a','SpO₂ 90% transitória',{dsp:4}),E(1200,0,'i','Fototerapia iniciada')]}];
-function gen(p){let s=p.s;const r=()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296},o={sp:[],bpm:[],ti:[],h:[],tc:[],r:[]};
-for(let i=0;i<144;i++){const ago=(143-i)*10;let a=0,b=0,c=0,n2=0;p.ev.forEach(e=>{const w=Math.exp(-(((ago-e.a)/12)**2));a+=(e.dsp||0)*w;b+=(e.dbpm||0)*w;c+=(e.dt||0)*w;n2+=(e.tp=='i'?8:0)*w});
-o.sp.push(Math.min(100,Math.round(p.sp+(r()-.5)*2-a)));o.bpm.push(Math.round(p.bpm+(r()-.5)*10+b));o.ti.push(+(p.tg+(r()-.5)*.3+c).toFixed(2));o.h.push(Math.round(p.h+(r()-.5)*6));o.tc.push(+(p.tc+(r()-.5)*.2+c*.5).toFixed(2));o.r.push(Math.round(p.r+(r()-.5)*6+n2))}return o}
-const D=P.map(gen),band=(k,p)=>k=='ti'?[p.tg-.5,p.tg+.5]:V[k].b,now=new Date(),tm=a=>hm(new Date(now-a*6e4));
-function chart(ks,p,d,n,h,W=700){const m={l:40,r:40,t:8,b:20},x=i=>m.l+i/(n-1)*(W-m.l-m.r),sl=k=>d[k].slice(144-n);
-const dom=ks.map(k=>{const v=sl(k),bb=ks.length==1?band(k,p):[];const lo=Math.min(...v,...bb),hi=Math.max(...v,...bb),pd=(hi-lo)*.1||1;return[lo-pd,hi+pd]}),y=(j,v)=>m.t+(1-(v-dom[j][0])/(dom[j][1]-dom[j][0]))*(h-m.t-m.b);let s=`<svg viewBox="0 0 ${W} ${h}" width="100%" role="img" aria-label="${ks.map(k=>V[k].n).join(' e ')}">`;
-if(ks.length==1){const bb=band(ks[0],p);if(bb)s+=`<rect x="${m.l}" width="${W-m.l-m.r}" y="${y(0,bb[1])}" height="${y(0,bb[0])-y(0,bb[1])}" fill="${V[ks[0]].c}" opacity=".13"/>`}
-ks.forEach((k,j)=>{for(let t=0;t<4;t++){const v=dom[j][0]+(dom[j][1]-dom[j][0])*t/3,yy=y(j,v);s+=`<text x="${j?W-m.r+4:m.l-4}" y="${yy+3}" text-anchor="${j?'start':'end'}" style="fill:${V[k].c}">${v.toFixed((k=='ti'||k=='tc')?1:0)}</text>`;if(!j)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${yy}" y2="${yy}" stroke="var(--line)"/>`}
-s+=`<polyline fill="none" stroke="${V[k].c}" stroke-width="2" points="${sl(k).map((v,i)=>x(i)+','+y(j,v)).join(' ')}"/>`});
-for(let t=0;t<=6;t++)s+=`<text x="${x(t*(n-1)/6)}" y="${h-4}" text-anchor="middle">${tm((n-1)*10*(1-t/6))}</text>`;
-p.ev.filter(e=>e.l&&e.a<(n-1)*10).forEach(e=>{const xx=x(n-1-e.a/10),c=e.l>1?'var(--crit)':'var(--warn)';s+=`<line x1="${xx}" x2="${xx}" y1="${m.t}" y2="${h-m.b}" stroke="${c}" stroke-dasharray="3 3"/><circle cx="${xx}" cy="${m.t+4}" r="4" fill="${c}"><title>${tm(e.a)} ${e.tx}</title></circle>`});return s+'</svg>'}
-const R=(a,b)=>{const n=a.length,ma=a.reduce((x,y)=>x+y)/n,mb=b.reduce((x,y)=>x+y)/n;let c=0,sa=0,sb=0;a.forEach((v,i)=>{c+=(v-ma)*(b[i]-mb);sa+=(v-ma)**2;sb+=(b[i]-mb)**2});return c/Math.sqrt(sa*sb)};
-function draw(){const i=+$('#pt').value,p=P[i],d=D[i],hrs=+$('#rg').value,n=hrs*6;$('#pn').textContent=p.n;$('#pi').textContent=p.d;
-const gr=(t,ks)=>`<div class="gl">${t}</div>`+ks.map(k=>`<div><b style="font-size:13px;color:${V[k].c}">${V[k].n}</b>${chart([k],p,d,n,150,380)}</div>`).join('');$('#ch').innerHTML=gr('Sensores do bebê',['sp','bpm','tc'])+gr('Sensores da incubadora',['ti','h','r'])+(e=>`<div class="ft"><b style="font-size:13px">Eventos no período</b><p style="margin-top:8px"><span class="chip c2">▲ ${e.filter(x=>x.l>1).length} críticos</span> <span class="chip c1">◆ ${e.filter(x=>x.l==1).length} atenção</span></p><p class="mut" style="margin-top:8px">${e.filter(x=>x.tp=='i').length} intervenções registradas.<br>Faixa sombreada = alvo; marcadores = alertas.</p></div>`)(p.ev.filter(e=>e.a<=hrs*60));
-const a=$('#v1').value,b=$('#v2').value;$('#mv').innerHTML=chart(a==b?[a]:[a,b],p,d,n,260)+`<div class="lg"><span><i style="background:${V[a].c}"></i>${V[a].n} (esq.)</span><span><i style="background:${V[b].c}"></i>${V[b].n} (dir.)</span></div>`;
-const r=a==b?1:R(d[a].slice(144-n),d[b].slice(144-n));$('#co').textContent=a==b?'Selecione duas variáveis diferentes.':`Correlação de Pearson no período: r = ${r.toFixed(2).replace('.',',')} (${Math.abs(r)>.6?'forte':Math.abs(r)>.3?'moderada':'fraca'}). Associação estatística, não implica causa.`;
-$('#tl').innerHTML=p.ev.filter(e=>e.a<=hrs*60).map(e=>`<li class="${e.tp=='i'?'i':'e'+e.l}"><b>${tm(e.a)}</b> ${e.tp=='i'?'Intervenção':e.l>1?'Alerta crítico':'Alerta de atenção'}<br>${e.tx}</li>`).join('')||'<li class="mut">Sem eventos no período.</li>';
-$('#rs').textContent=`Últimas ${hrs} h (${hrs*60} min) · gerado às ${hm(now)}`;
-$('#tb').innerHTML='<tr><th>Parâmetro</th><th>Atual</th><th>Mín.</th><th>Máx.</th><th>Média</th><th>Faixa-alvo</th><th>Tempo fora da faixa (min)</th><th>% do período</th></tr>'+Object.keys(V).map(k=>{const v=d[k].slice(144-n),bb=band(k,p),cn=bb?v.filter(x=>x<bb[0]||x>bb[1]).length:null,f=bb?Math.round(cn/n*100):null,fm=x=>x.toFixed((k=='ti'||k=='tc')?1:0).replace('.',',');return`<tr><td>${V[k].n}</td><td><b>${fm(v[n-1])}</b></td><td>${fm(Math.min(...v))}</td><td>${fm(Math.max(...v))}</td><td>${fm(v.reduce((x,y)=>x+y)/n)}</td><td>${bb?fm(bb[0])+'–'+fm(bb[1]):'—'}</td><td>${cn==null?'—':cn*10+' min'}</td><td>${f==null?'—':`<span class="chip c${f>20?2:f>5?1:0}">${f}%</span>`}</td></tr>`}).join('')}
-P.forEach((p,i)=>$('#pt').add(new Option(p.n,i)));Object.keys(V).forEach(k=>{$('#v1').add(new Option(V[k].n,k));$('#v2').add(new Option(V[k].n,k))});$('#v1').value='sp';$('#v2').value='ti';
-['#pt','#rg','#v1','#v2'].forEach(s=>$(s).onchange=draw);draw();
-</script></body></html>
+<!doctype html>
+<html lang="pt-BR" data-theme="light" style="color-scheme: light">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Painel do Neonatologista · NeoMonitor</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #f1f5f8;
+        --card: #fff;
+        --ink: #16233a;
+        --mut: #5b6a7e;
+        --line: #dbe3ea;
+        --navy: #1d2a47;
+        --teal: #2a8397;
+        --crit: #c42b3b;
+        --critbg: #fde8ea;
+        --warn: #9a5b00;
+        --warnbg: #fff0d0;
+        --ok: #17795a;
+        --okbg: #ddf2e8;
+        --s1: #2a8397;
+        --s2: #d97706;
+        --s3: #6d4cc2;
+        --s4: #1a7f56;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0e1626;
+          --card: #16213a;
+          --ink: #e6edf5;
+          --mut: #97a6bb;
+          --line: #25365a;
+          --crit: #ff7080;
+          --critbg: #3b1b26;
+          --warn: #f2b04a;
+          --warnbg: #3a2f15;
+          --ok: #4cc790;
+          --okbg: #143428;
+          --teal: #5fb0c0;
+          --s1: #5fb0c0;
+          --s2: #f0a04b;
+          --s3: #a98bf0;
+          --s4: #4cc790;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0e1626;
+        --card: #16213a;
+        --ink: #e6edf5;
+        --mut: #97a6bb;
+        --line: #25365a;
+        --crit: #ff7080;
+        --critbg: #3b1b26;
+        --warn: #f2b04a;
+        --warnbg: #3a2f15;
+        --ok: #4cc790;
+        --okbg: #143428;
+        --teal: #5fb0c0;
+        --s1: #5fb0c0;
+        --s2: #f0a04b;
+        --s3: #a98bf0;
+        --s4: #4cc790;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      :root {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      body {
+        font:
+          14px/1.45 Figtree,
+          system-ui,
+          sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0 0 auto;
+        height: env(safe-area-inset-top, 0px);
+        background: var(--navy);
+        z-index: 6;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 20px;
+        background: var(--navy);
+        color: #fff;
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 5;
+        flex-wrap: wrap;
+      }
+      .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 9px 3px 9px 3px;
+        background: linear-gradient(135deg, #5fb0c0 50%, #cfd6da 50%);
+      }
+      .sp {
+        flex: 1;
+      }
+      main {
+        padding: 16px 20px;
+        display: grid;
+        gap: 16px;
+        max-width: 1500px;
+        margin: auto;
+      }
+      .g {
+        display: grid;
+        gap: 16px;
+      }
+      .cols {
+        grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+      }
+      @media (max-width: 900px) {
+        .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      .kpis {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px;
+        min-width: 0;
+      }
+      h2 {
+        font-size: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .mut {
+        color: var(--mut);
+        font-size: 12px;
+      }
+      .kpi b {
+        font-size: 28px;
+        display: block;
+        line-height: 1.15;
+      }
+      .chip {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .c2 {
+        background: var(--critbg);
+        color: var(--crit);
+      }
+      .c1 {
+        background: var(--warnbg);
+        color: var(--warn);
+      }
+      .c0 {
+        background: var(--okbg);
+        color: var(--ok);
+      }
+      .t0 {
+        border-left: 4px solid var(--ok);
+      }
+      .t1 {
+        border-left: 4px solid var(--warn);
+      }
+      .t2 {
+        border-left: 4px solid var(--crit);
+      }
+      .f2 {
+        color: var(--crit);
+        font-weight: 700;
+      }
+      .f1 {
+        color: var(--warn);
+        font-weight: 700;
+      }
+      button,
+      select {
+        font: inherit;
+        color: inherit;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      select:focus-visible {
+        outline: 2px solid var(--teal);
+        outline-offset: 2px;
+      }
+      .bar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 7px 8px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      th {
+        color: var(--mut);
+        font-weight: 600;
+      }
+      svg text {
+        fill: var(--mut);
+        font-size: 10px;
+      }
+      footer {
+        padding: 14px 20px;
+        color: var(--mut);
+        font-size: 12px;
+        text-align: center;
+      }
+      @media print {
+        .top,
+        button,
+        select {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <span class="logo"></span><b>NeoMonitor</b
+      ><span style="opacity: 0.7">UTIN · Hospital Demo</span
+      ><span class="sp"></span><span>Dr. Rafael · Neonatologista</span
+      ><span id="clk" style="opacity: 0.8"></span>
+    </header>
+    <style>
+      .tl {
+        list-style: none;
+        padding: 0;
+        max-height: 340px;
+        overflow: auto;
+      }
+      .tg {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px 16px;
+      }
+      @media (max-width: 900px) {
+        .tg {
+          grid-template-columns: 1fr;
+        }
+      }
+      .gl {
+        grid-column: 1/-1;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--mut);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .gl::after {
+        content: "";
+        flex: 1;
+        border-top: 1px solid var(--line);
+      }
+      .ft {
+        grid-column: 1/-1;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+        margin-top: 4px;
+      }
+      .ft p {
+        margin: 0 !important;
+      }
+      .tl li {
+        padding: 6px 0 6px 12px;
+        border-left: 3px solid var(--line);
+        margin-left: 4px;
+        font-size: 13px;
+      }
+      .tl li.e2 {
+        border-color: var(--crit);
+      }
+      .tl li.e1 {
+        border-color: var(--warn);
+      }
+      .tl li.i {
+        border-color: var(--teal);
+      }
+      .lg span {
+        margin-right: 12px;
+        font-size: 12px;
+      }
+      .lg i {
+        display: inline-block;
+        width: 14px;
+        height: 3px;
+        margin-right: 4px;
+        vertical-align: middle;
+      }
+    </style>
+    <main>
+      <section class="card bar">
+        <b id="pn" style="font-size: 16px"></b
+        ><select id="pt" aria-label="Paciente"></select
+        ><select id="rg" aria-label="Período">
+          <option value="6">Últimas 6 h</option>
+          <option value="12" selected>Últimas 12 h</option>
+          <option value="24">Últimas 24 h</option></select
+        ><span class="mut" id="pi"></span><span class="sp"></span
+        ><button onclick="print()">Imprimir resumo</button>
+      </section>
+      <section class="card">
+        <h2>
+          Histórico e tendências
+          <span class="mut">faixa-alvo sombreada · marcadores = alertas</span>
+        </h2>
+        <div id="ch" class="tg"></div>
+      </section>
+      <div class="g cols">
+        <div class="g">
+          <section class="card">
+            <h2>
+              Análise multivariável
+              <span class="bar"
+                ><select id="v1" aria-label="Eixo esquerdo"></select
+                ><span class="mut">×</span
+                ><select id="v2" aria-label="Eixo direito"></select
+              ></span>
+            </h2>
+            <div id="mv"></div>
+            <p class="mut" id="co"></p>
+          </section>
+        </div>
+        <section class="card">
+          <h2>
+            Linha do tempo <span class="mut">alertas e intervenções</span>
+          </h2>
+          <ul class="tl" id="tl"></ul>
+        </section>
+      </div>
+      <section class="card">
+        <h2>Resumo de evolução de turno <span class="mut" id="rs"></span></h2>
+        <div class="tw"><table id="tb"></table></div>
+      </section>
+    </main>
+    <footer>
+      Protótipo com dados simulados. Ferramenta de apoio ao acompanhamento; não
+      substitui equipamentos médicos regulamentados nem a avaliação clínica.
+      Dados tratados conforme a LGPD.
+    </footer>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        pad = (n) => String(n).padStart(2, "0"),
+        hm = (d) => pad(d.getHours()) + ":" + pad(d.getMinutes());
+      const clk = () => {
+        const d = new Date();
+        $("#clk").textContent =
+          d.toLocaleDateString("pt-BR") +
+          " " +
+          hm(d) +
+          ":" +
+          pad(d.getSeconds());
+      };
+      clk();
+      setInterval(clk, 1000);
+      const L = ["Estável", "Atenção", "Crítico"],
+        I = ["●", "◆", "▲"],
+        chip = (l) => `<span class="chip c${l}">${I[l]} ${L[l]}</span>`;
+      const V = {
+        sp: { n: "SpO₂ (%)", c: "var(--s1)", b: [90, 95] },
+        bpm: { n: "Freq. cardíaca (bpm)", c: "var(--s2)", b: [120, 160] },
+        ti: { n: "Temp. incubadora (°C)", c: "var(--s3)" },
+        h: { n: "Umidade (%)", c: "var(--s4)", b: [60, 80] },
+        tc: { n: "Temp. corporal (°C)", c: "var(--crit)", b: [36.5, 37.5] },
+        r: { n: "Ruído interno (dB)", c: "var(--mut)", b: [30, 45] },
+      };
+      const E = (a, l, tp, tx, d = {}) => ({ a, l, tp, tx, ...d });
+      const P = [
+        {
+          n: "RN de Carla Dias",
+          d: "IG 26s+5 · 12 dias de vida · 0,84 kg · SDR, ventilação não invasiva",
+          sp: 91.5,
+          bpm: 156,
+          tg: 36,
+          h: 75,
+          s: 3,
+          tc: 36.9,
+          r: 47,
+          ev: [
+            E(45, 2, "a", "Dessaturação: SpO₂ 86% por 3 min", {
+              dsp: 6,
+              dbpm: 22,
+            }),
+            E(38, 0, "i", "Aspiração de vias aéreas; FiO₂ ajustada"),
+            E(
+              300,
+              1,
+              "a",
+              "Queda de temperatura da incubadora (35,2 °C): portinhola aberta",
+              { dt: -0.8 },
+            ),
+            E(290, 0, "i", "Portinhola fechada; aquecimento ajustado"),
+            E(560, 0, "i", "Dose de cafeína administrada"),
+            E(900, 1, "a", "Taquicardia: FC 172 bpm", { dbpm: 16 }),
+            E(1100, 0, "i", "Mudança de decúbito"),
+          ],
+        },
+        {
+          n: "RN de Ana Souza",
+          d: "IG 28s+3 · 20 dias de vida · 1,02 kg · prematuridade, ganho de peso",
+          sp: 96,
+          bpm: 148,
+          tg: 35.8,
+          h: 72,
+          s: 7,
+          tc: 36.8,
+          r: 41,
+          ev: [
+            E(210, 0, "i", "Início de dieta enteral 3 mL"),
+            E(700, 1, "a", "Umidade 58% (abaixo da faixa)"),
+            E(1000, 0, "i", "Troca de sensor de SpO₂"),
+          ],
+        },
+        {
+          n: "RN de Elisa Prado",
+          d: "IG 29s+1 · 8 dias de vida · 1,10 kg · risco de hipotermia",
+          sp: 94,
+          bpm: 132,
+          tg: 35.8,
+          h: 68,
+          s: 11,
+          tc: 36.6,
+          r: 42,
+          ev: [
+            E(120, 2, "a", "Temperatura da incubadora 34,7 °C (meta 35,8)", {
+              dt: -1.1,
+              dbpm: -14,
+            }),
+            E(110, 0, "i", "Reajuste do setpoint; equipe notificada"),
+            E(480, 1, "a", "SpO₂ 90% transitória", { dsp: 4 }),
+            E(1200, 0, "i", "Fototerapia iniciada"),
+          ],
+        },
+      ];
+      function gen(p) {
+        let s = p.s;
+        const r = () => {
+            s |= 0;
+            s = (s + 0x6d2b79f5) | 0;
+            let t = Math.imul(s ^ (s >>> 15), 1 | s);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          },
+          o = { sp: [], bpm: [], ti: [], h: [], tc: [], r: [] };
+        for (let i = 0; i < 144; i++) {
+          const ago = (143 - i) * 10;
+          let a = 0,
+            b = 0,
+            c = 0,
+            n2 = 0;
+          p.ev.forEach((e) => {
+            const w = Math.exp(-(((ago - e.a) / 12) ** 2));
+            a += (e.dsp || 0) * w;
+            b += (e.dbpm || 0) * w;
+            c += (e.dt || 0) * w;
+            n2 += (e.tp == "i" ? 8 : 0) * w;
+          });
+          o.sp.push(Math.min(100, Math.round(p.sp + (r() - 0.5) * 2 - a)));
+          o.bpm.push(Math.round(p.bpm + (r() - 0.5) * 10 + b));
+          o.ti.push(+(p.tg + (r() - 0.5) * 0.3 + c).toFixed(2));
+          o.h.push(Math.round(p.h + (r() - 0.5) * 6));
+          o.tc.push(+(p.tc + (r() - 0.5) * 0.2 + c * 0.5).toFixed(2));
+          o.r.push(Math.round(p.r + (r() - 0.5) * 6 + n2));
+        }
+        return o;
+      }
+      const D = P.map(gen),
+        band = (k, p) => (k == "ti" ? [p.tg - 0.5, p.tg + 0.5] : V[k].b),
+        now = new Date(),
+        tm = (a) => hm(new Date(now - a * 6e4));
+      function chart(ks, p, d, n, h, W = 700) {
+        const m = { l: 40, r: 40, t: 8, b: 20 },
+          x = (i) => m.l + (i / (n - 1)) * (W - m.l - m.r),
+          sl = (k) => d[k].slice(144 - n);
+        const dom = ks.map((k) => {
+            const v = sl(k),
+              bb = ks.length == 1 ? band(k, p) : [];
+            const lo = Math.min(...v, ...bb),
+              hi = Math.max(...v, ...bb),
+              pd = (hi - lo) * 0.1 || 1;
+            return [lo - pd, hi + pd];
+          }),
+          y = (j, v) =>
+            m.t +
+            (1 - (v - dom[j][0]) / (dom[j][1] - dom[j][0])) * (h - m.t - m.b);
+        let s = `<svg viewBox="0 0 ${W} ${h}" width="100%" role="img" aria-label="${ks.map((k) => V[k].n).join(" e ")}">`;
+        if (ks.length == 1) {
+          const bb = band(ks[0], p);
+          if (bb)
+            s += `<rect x="${m.l}" width="${W - m.l - m.r}" y="${y(0, bb[1])}" height="${y(0, bb[0]) - y(0, bb[1])}" fill="${V[ks[0]].c}" opacity=".13"/>`;
+        }
+        ks.forEach((k, j) => {
+          for (let t = 0; t < 4; t++) {
+            const v = dom[j][0] + ((dom[j][1] - dom[j][0]) * t) / 3,
+              yy = y(j, v);
+            s += `<text x="${j ? W - m.r + 4 : m.l - 4}" y="${yy + 3}" text-anchor="${j ? "start" : "end"}" style="fill:${V[k].c}">${v.toFixed(k == "ti" || k == "tc" ? 1 : 0)}</text>`;
+            if (!j)
+              s += `<line x1="${m.l}" x2="${W - m.r}" y1="${yy}" y2="${yy}" stroke="var(--line)"/>`;
+          }
+          s += `<polyline fill="none" stroke="${V[k].c}" stroke-width="2" points="${sl(
+            k,
+          )
+            .map((v, i) => x(i) + "," + y(j, v))
+            .join(" ")}"/>`;
+        });
+        for (let t = 0; t <= 6; t++)
+          s += `<text x="${x((t * (n - 1)) / 6)}" y="${h - 4}" text-anchor="middle">${tm((n - 1) * 10 * (1 - t / 6))}</text>`;
+        p.ev
+          .filter((e) => e.l && e.a < (n - 1) * 10)
+          .forEach((e) => {
+            const xx = x(n - 1 - e.a / 10),
+              c = e.l > 1 ? "var(--crit)" : "var(--warn)";
+            s += `<line x1="${xx}" x2="${xx}" y1="${m.t}" y2="${h - m.b}" stroke="${c}" stroke-dasharray="3 3"/><circle cx="${xx}" cy="${m.t + 4}" r="4" fill="${c}"><title>${tm(e.a)} ${e.tx}</title></circle>`;
+          });
+        return s + "</svg>";
+      }
+      const R = (a, b) => {
+        const n = a.length,
+          ma = a.reduce((x, y) => x + y) / n,
+          mb = b.reduce((x, y) => x + y) / n;
+        let c = 0,
+          sa = 0,
+          sb = 0;
+        a.forEach((v, i) => {
+          c += (v - ma) * (b[i] - mb);
+          sa += (v - ma) ** 2;
+          sb += (b[i] - mb) ** 2;
+        });
+        return c / Math.sqrt(sa * sb);
+      };
+      function draw() {
+        const i = +$("#pt").value,
+          p = P[i],
+          d = D[i],
+          hrs = +$("#rg").value,
+          n = hrs * 6;
+        $("#pn").textContent = p.n;
+        $("#pi").textContent = p.d;
+        const gr = (t, ks) =>
+          `<div class="gl">${t}</div>` +
+          ks
+            .map(
+              (k) =>
+                `<div><b style="font-size:13px;color:${V[k].c}">${V[k].n}</b>${chart([k], p, d, n, 150, 380)}</div>`,
+            )
+            .join("");
+        $("#ch").innerHTML =
+          gr("Sensores do Neonato", ["sp", "bpm", "tc"]) +
+          gr("Sensores da incubadora", ["ti", "h", "r"]) +
+          ((e) =>
+            `<div class="ft"><b style="font-size:13px">Eventos no período</b><p style="margin-top:8px"><span class="chip c2">▲ ${e.filter((x) => x.l > 1).length} críticos</span> <span class="chip c1">◆ ${e.filter((x) => x.l == 1).length} atenção</span></p><p class="mut" style="margin-top:8px">${e.filter((x) => x.tp == "i").length} intervenções registradas.<br>Faixa sombreada = alvo; marcadores = alertas.</p></div>`)(
+            p.ev.filter((e) => e.a <= hrs * 60),
+          );
+        const a = $("#v1").value,
+          b = $("#v2").value;
+        $("#mv").innerHTML =
+          chart(a == b ? [a] : [a, b], p, d, n, 260) +
+          `<div class="lg"><span><i style="background:${V[a].c}"></i>${V[a].n} (esq.)</span><span><i style="background:${V[b].c}"></i>${V[b].n} (dir.)</span></div>`;
+        const r = a == b ? 1 : R(d[a].slice(144 - n), d[b].slice(144 - n));
+        $("#co").textContent =
+          a == b
+            ? "Selecione duas variáveis diferentes."
+            : `Correlação de Pearson no período: r = ${r.toFixed(2).replace(".", ",")} (${Math.abs(r) > 0.6 ? "forte" : Math.abs(r) > 0.3 ? "moderada" : "fraca"}). Associação estatística, não implica causa.`;
+        $("#tl").innerHTML =
+          p.ev
+            .filter((e) => e.a <= hrs * 60)
+            .map(
+              (e) =>
+                `<li class="${e.tp == "i" ? "i" : "e" + e.l}"><b>${tm(e.a)}</b> ${e.tp == "i" ? "Intervenção" : e.l > 1 ? "Alerta crítico" : "Alerta de atenção"}<br>${e.tx}</li>`,
+            )
+            .join("") || '<li class="mut">Sem eventos no período.</li>';
+        $("#rs").textContent =
+          `Últimas ${hrs} h (${hrs * 60} min) · gerado às ${hm(now)}`;
+        $("#tb").innerHTML =
+          "<tr><th>Parâmetro</th><th>Atual</th><th>Mín.</th><th>Máx.</th><th>Média</th><th>Faixa-alvo</th><th>Tempo fora da faixa (min)</th><th>% do período</th></tr>" +
+          Object.keys(V)
+            .map((k) => {
+              const v = d[k].slice(144 - n),
+                bb = band(k, p),
+                cn = bb ? v.filter((x) => x < bb[0] || x > bb[1]).length : null,
+                f = bb ? Math.round((cn / n) * 100) : null,
+                fm = (x) =>
+                  x.toFixed(k == "ti" || k == "tc" ? 1 : 0).replace(".", ",");
+              return `<tr><td>${V[k].n}</td><td><b>${fm(v[n - 1])}</b></td><td>${fm(Math.min(...v))}</td><td>${fm(Math.max(...v))}</td><td>${fm(v.reduce((x, y) => x + y) / n)}</td><td>${bb ? fm(bb[0]) + "–" + fm(bb[1]) : "—"}</td><td>${cn == null ? "—" : cn * 10 + " min"}</td><td>${f == null ? "—" : `<span class="chip c${f > 20 ? 2 : f > 5 ? 1 : 0}">${f}%</span>`}</td></tr>`;
+            })
+            .join("");
+      }
+      P.forEach((p, i) => $("#pt").add(new Option(p.n, i)));
+      Object.keys(V).forEach((k) => {
+        $("#v1").add(new Option(V[k].n, k));
+        $("#v2").add(new Option(V[k].n, k));
+      });
+      $("#v1").value = "sp";
+      $("#v2").value = "ti";
+      ["#pt", "#rg", "#v1", "#v2"].forEach((s) => ($(s).onchange = draw));
+      draw();
+    </script>
+  </body>
+</html>
